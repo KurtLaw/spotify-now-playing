@@ -222,7 +222,7 @@ export default async function handler(req, res) {
           artist.genres,
 
           followers:
-          artist.followers.total,
+              artist.followers?.total || 0,
 
           url:
           artist.external_urls.spotify
@@ -264,7 +264,7 @@ export default async function handler(req, res) {
           artist.genres,
 
           followers:
-          artist.followers.total,
+              artist.followers?.total || 0,
 
           url:
           artist.external_urls.spotify
