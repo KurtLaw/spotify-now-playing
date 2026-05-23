@@ -303,7 +303,7 @@ export default async function handler(req, res) {
           artist.images?.[0]?.url || null,
 
       followers:
-      artist.followers.total,
+          artist.followers?.total || 0,
 
       genres:
       artist.genres,
