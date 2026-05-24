@@ -4,6 +4,30 @@ export default async function handler(req, res) {
 
   const { type } = req.query;
 
+  // =====================================
+  // CORS
+  // =====================================
+
+  res.setHeader(
+      'Access-Control-Allow-Origin',
+      '*'
+  )
+
+  res.setHeader(
+      'Access-Control-Allow-Methods',
+      'GET, OPTIONS'
+  )
+
+  res.setHeader(
+      'Access-Control-Allow-Headers',
+      'Content-Type'
+  )
+
+  // preflight
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end()
+  }
+
   try {
     // =========================================
     // 玩家资料
@@ -85,9 +109,19 @@ export default async function handler(req, res) {
 
       const data = await response.json();
 
-      return res.status(200).json(
-          data.response.games || []
+      const games = (data.response.games || []).map(
+          (game) => ({
+            ...game,
+
+            hours: Math.floor(
+                game.playtime_forever / 60
+            ),
+
+            image: `https://cdn.cloudflare.steamstatic.com/steam/apps/${game.appid}/header.jpg`,
+          })
       );
+
+      return res.status(200).json(games);
     }
 
     // =========================================
@@ -101,9 +135,19 @@ export default async function handler(req, res) {
 
       const data = await response.json();
 
-      return res.status(200).json(
-          data.response.games || []
+      const games = (data.response.games || []).map(
+          (game) => ({
+            ...game,
+
+            hours: Math.floor(
+                game.playtime_forever / 60
+            ),
+
+            image: `https://cdn.cloudflare.steamstatic.com/steam/apps/${game.appid}/header.jpg`,
+          })
       );
+
+      return res.status(200).json(games);
     }
 
     // =========================================
